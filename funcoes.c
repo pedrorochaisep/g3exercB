@@ -35,3 +35,37 @@ char* repete_letras(char *vec, int nrep) {
 
     return novo_vec;
 }
+
+char* recebe_texto() {
+    int capacity = 10;
+    int size = 0; 
+    char *texto = (char*)malloc(capacity * sizeof(char)); 
+
+    if (texto == NULL) {
+        printf("Erro ao alocar memória.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    printf("Insira o texto (terminar com ##):\n");
+
+    char c;
+    while ((c = getchar()) != EOF && c != '\n') {
+        if (size >= capacity) {
+            capacity *= 2; 
+            texto = (char*)realloc(texto, capacity * sizeof(char)); 
+            if (texto == NULL) {
+                printf("Erro ao realocar memória.\n");
+                exit(EXIT_FAILURE);
+            }
+        }
+        if (c == '#' && size > 0 && texto[size - 1] == '#') {
+            break; 
+        }
+        texto[size++] = c;
+    }
+    texto[size] = '\0'; 
+
+    texto = (char*)realloc(texto, (size + 1) * sizeof(char));
+
+    return texto;
+}
